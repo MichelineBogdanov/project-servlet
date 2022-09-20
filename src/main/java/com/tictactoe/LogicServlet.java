@@ -14,25 +14,16 @@ import java.util.List;
 public class LogicServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-
         // Получаем текущую сессию
-
         HttpSession currentSession = req.getSession();
-
-
         // Получаем объект игрового поля из сессии
         Field field = extractField(currentSession);
-
         if (checkWin(resp, currentSession, field)) {
             return;
         }
-
-
         // получаем индекс ячейки, по которой произошел клик
         int index = getSelectedIndex(req);
         Sign currentSign = field.getField().get(index);
-
         // Проверяем, что ячейка, по которой был клик пустая.
         // Иначе ничего не делаем и отправляем пользователя на ту же страницу без изменений
         // параметров в сессии
@@ -41,13 +32,10 @@ public class LogicServlet extends HttpServlet {
             dispatcher.forward(req, resp);
             return;
         }
-
         // ставим крестик в ячейке, по которой кликнул пользователь
         field.getField().put(index, Sign.CROSS);
-
         // Получаем пустую ячейку поля
         int emptyFieldIndex = field.getEmptyFieldIndex();
-
         if (emptyFieldIndex >= 0) {
             field.getField().put(emptyFieldIndex, Sign.NOUGHT);
         } else {
@@ -64,10 +52,8 @@ public class LogicServlet extends HttpServlet {
             resp.sendRedirect("/index.jsp");
             return;
         }
-
         // Считаем список значков
         List<Sign> data = field.getFieldData();
-
         // Обновляем объект поля и список значков в сессии
         currentSession.setAttribute("data", data);
         currentSession.setAttribute("field", field);
@@ -78,7 +64,6 @@ public class LogicServlet extends HttpServlet {
                 return;
             }
         }
-
         resp.sendRedirect("/index.jsp");
     }
 
@@ -105,13 +90,10 @@ public class LogicServlet extends HttpServlet {
         if (Sign.CROSS == winner || Sign.NOUGHT == winner) {
             // Добавляем флаг, который показывает что кто-то победил
             currentSession.setAttribute("winner", winner);
-
             // Считаем список значков
             List<Sign> data = field.getFieldData();
-
             // Обновляем этот список в сессии
             currentSession.setAttribute("data", data);
-
             // Шлем редирект
             response.sendRedirect("/index.jsp");
             return true;

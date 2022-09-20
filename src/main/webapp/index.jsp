@@ -3,12 +3,14 @@
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Tic-Tac-Toe</title>
     <link href="static/main.css" rel="stylesheet">
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <script src="<c:url value="/static/jquery-3.6.0.min.js"/>"></script>
 </head>
+
 <body>
 <h1>Tic-Tac-Toe</h1>
 <table>
@@ -32,7 +34,6 @@
 <hr>
 <c:set var="CROSSES" value="<%=Sign.CROSS%>"/>
 <c:set var="NOUGHTS" value="<%=Sign.NOUGHT%>"/>
-
 <c:if test="${winner == CROSSES}">
     <h1>CROSSES WIN!</h1>
     <button onclick="restart()">Start again</button>
